@@ -23,7 +23,7 @@ const powerCountElement = document.getElementById("powerCount");
 function updateAttendanceDisplay() {
   attendeeCount.textContent = count;
 
-  const percentage = Math.round((count / maxCount) * 100) + "%";
+  const percentage = Math.min(Math.round((count / maxCount) * 100), 100) + "%";
   progressBar.style.width = percentage;
 
   waterCountElement.textContent = waterCount;
@@ -110,7 +110,7 @@ form.addEventListener("submit", function (event) {
       winningTeams.push("Team Renewables");
     }
 
-    message = `Celebration! We reached ${maxCount} attendees. Highest attendance: ${winningTeams.join(", ")}.`;
+    message += ` Celebration! We reached ${maxCount} attendees. Highest attendance: ${winningTeams.join(", ")}.`;
   }
 
   greeting.textContent = message;
