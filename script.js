@@ -45,6 +45,23 @@ function saveAttendance() {
   localStorage.setItem("attendance", JSON.stringify(attendance));
 }
 
+function getCelebrationMessage() {
+  const highestCount = Math.max(waterCount, zeroCount, powerCount);
+  const winningTeams = [];
+
+  if (waterCount === highestCount) {
+    winningTeams.push("Team Water Wise");
+  }
+  if (zeroCount === highestCount) {
+    winningTeams.push("Team Net Zero");
+  }
+  if (powerCount === highestCount) {
+    winningTeams.push("Team Renewables");
+  }
+
+  return `Celebration! We reached ${maxCount} attendees. Highest attendance: ${winningTeams.join(", ")}.`;
+}
+
 function displayAttendees() {
   attendeeList.innerHTML = "";
 
@@ -57,6 +74,12 @@ function displayAttendees() {
 
 updateAttendanceDisplay();
 displayAttendees();
+
+if (count >= maxCount) {
+  greeting.textContent = getCelebrationMessage();
+  greeting.className = "success-message";
+  greeting.style.display = "block";
+}
 
 // Handle form submission
 form.addEventListener("submit", function (event) {
@@ -97,20 +120,7 @@ form.addEventListener("submit", function (event) {
   let message = `Welcome, ${name} from ${teamName}`;
 
   if (count >= maxCount) {
-    const highestCount = Math.max(waterCount, zeroCount, powerCount);
-    const winningTeams = [];
-
-    if (waterCount === highestCount) {
-      winningTeams.push("Team Water Wise");
-    }
-    if (zeroCount === highestCount) {
-      winningTeams.push("Team Net Zero");
-    }
-    if (powerCount === highestCount) {
-      winningTeams.push("Team Renewables");
-    }
-
-    message += ` Celebration! We reached ${maxCount} attendees. Highest attendance: ${winningTeams.join(", ")}.`;
+    message += ` ${getCelebrationMessage()}`;
   }
 
   greeting.textContent = message;
